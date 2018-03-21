@@ -1,10 +1,13 @@
 import random
 
+
 def gcd(a, b):
     if b == 0:
         return a
     return gcd(b, a%b)
 
+
+# a^b mod c
 def quickPowMod(a, b, c):
     res = 1
     a = a%c
@@ -14,6 +17,7 @@ def quickPowMod(a, b, c):
         a = (a * a)%c
         b = b >> 1
     return res
+
 
 def quickPow(a, b):
     res = 1
@@ -54,30 +58,30 @@ print('n=',n)
 print('fn=',fn)
 
 
-# # 随机求e
-# while True:
-#     e = random.randint(2, fn-1)
-#     if(gcd(e ,fn) == 1):
-#         break
-
-# 顺序求e
-e = -1
-for i in range(2, fn):
-    e = i
+# 随机求e
+while True:
+    e = random.randint(2, fn-1)
     if(gcd(e ,fn) == 1):
         break
 
 print('e=', e)
 
-d = -1
-for i in range(2, 2<<32):
-    # print(i)
-    if (fn*i+1) % e == 0:
-        d = (fn*i+1) // e
-        break
+x = 0
+y = 0
+
+
+def exgcd(a, b):
+    if b == 0:
+        return (1, 0, a)
+    (x, y, r) = exgcd(b, a%b)
+    tmp = x
+    x = y
+    y = tmp - (a//b) * y
+    return (x, y, r)
+
+d = exgcd(e, fn)[0]
 
 print('d=', d)
-
 # 获取输入并转换为大写
 plaintext = input('计算结束，请输入待加密明文:').upper()
 
